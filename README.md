@@ -7,9 +7,10 @@ bookings (create / cancel) — all backed by hand-rolled synthetic data.
 No authentication — single-user, local tool.
 
 **Status**: work in progress, built in phases — see
-[`docs/02 - Dev Log.md`](docs/02%20-%20Dev%20Log.md). Phases 1 and 2 are
-done (schema, synthetic data, read-only dashboard/flights/customers views);
-booking management (Phase 3) is next.
+[`docs/02 - Dev Log.md`](docs/02%20-%20Dev%20Log.md). Phases 1-3 are done
+(schema, synthetic data, dashboard/flights/customers views, and booking
+management — create/cancel bookings, add customers); polish + docs
+wrap-up (Phase 4) is next.
 
 ![Dashboard screenshot](docs/screenshots/dashboard.jpg)
 

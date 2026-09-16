@@ -1,5 +1,7 @@
 """AmitAirline CRM — Customers: search customers and view booking history."""
 
+from datetime import date
+
 import pandas as pd
 import streamlit as st
 
@@ -11,6 +13,34 @@ conn = get_connection()
 ensure_schema(conn)
 
 st.title("\U0001f9d1‍\U0001f4bc Customers")
+
+with st.expander("Add New Customer"):
+    with st.form("new_customer_form", clear_on_submit=True):
+        col1, col2 = st.columns(2)
+        first_name = col1.text_input("First Name")
+        last_name = col2.text_input("Last Name")
+
+        col3, col4 = st.columns(2)
+        email = col3.text_input("Email")
+        phone = col4.text_input("Phone")
+
+        city = st.text_input("City")
+
+        submitted = st.form_submit_button("Add Customer")
+        if submitted:
+            if not first_name or not last_name or not email:
+                st.error("First name, last name, and email are required.")
+            else:
+                conn.execute(
+                    "INSERT INTO customers (first_name, last_name, email, phone, city, created_at) "
+                    "VALUES (?, ?, ?, ?, ?, ?)",
+                    (first_name, last_name, email, phone or None, city or None, date.today().isoformat()),
+                )
+                conn.commit()
+                st.success(f"Added {first_name} {last_name}.")
+                st.rerun()
+
+st.divider()
 
 search = st.text_input("Search (name / email / city)")
 
@@ -25,7 +55,7 @@ if search:
     params += [like, like, like, like]
 query += " ORDER BY last_name, first_name"
 
-df = pd.read_sql_query(query, conn, params=params)
+df = pd.read_sql_query(query, conn, params=params).fillna("")
 
 st.write(f"{len(df)} customer(s) found")
 

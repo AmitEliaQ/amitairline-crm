@@ -80,6 +80,10 @@ joins through bookings.
 - `pages/1_Flights.py` — search/filter flights, select a row to see its
   passenger manifest (Confirmed bookings joined with customers).
 - `pages/2_Customers.py` — search customers, select a row to see booking
-  history (all statuses). Phase 3 adds an "Add new customer" form.
-- `pages/3_Bookings.py` (Phase 3) — new booking form + existing bookings list
-  with filters + cancel action.
+  history (all statuses); includes an "Add New Customer" form.
+- `pages/3_Bookings.py` — new booking form + existing bookings list with
+  filters + cancel action.
+
+Display note: `pd.read_sql_query(...).fillna("")` is used before rendering
+any table that may contain NULLs (e.g. an empty `phone` or `seat`), otherwise
+pandas/Streamlit render the literal text "None" in the cell.

@@ -43,3 +43,32 @@ Tested:
   linked it from the README.
 
 Next: Phase 3 — booking management (create/cancel bookings, add customers).
+
+## 2026-09-16 — Phase 3: Booking management
+
+Built:
+- `pages/3_Bookings.py` — "New Booking" form (customer/flight pickers, seat,
+  fare) that inserts a Confirmed booking; "Existing Bookings" list with
+  status/search filters and row-select to cancel a Confirmed booking
+  (status UPDATE, never a DELETE).
+- Added an "Add New Customer" form to `pages/2_Customers.py`.
+- Fixed a display bug found during testing: empty `phone`/`seat` values
+  rendered as the literal text "None" in tables — fixed by calling
+  `.fillna("")` on the query results before display (Customers and
+  Bookings pages).
+
+Tested (in a running browser session):
+- Added a test customer ("Zephyr Testperson"), confirmed they appeared in
+  Customers search.
+- Booked them on flight AM936 (Seattle → Osaka), seat 9Z — confirmed the
+  booking appeared in Existing Bookings, in AM936's passenger manifest
+  (Flights page), and in the customer's booking history (Customers page).
+- Cancelled the booking — confirmed status flipped to Cancelled, the
+  passenger disappeared from the flight manifest (Confirmed-only), but the
+  booking stayed visible as Cancelled in Existing Bookings and booking
+  history.
+- No errors in the Streamlit server log during the session.
+- Removed the test customer/booking from the local `airline.db` afterward
+  (not committed to git anyway — it's gitignored).
+
+Next: Phase 4 — polish + documentation wrap-up.
