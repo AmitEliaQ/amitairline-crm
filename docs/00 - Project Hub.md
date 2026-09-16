@@ -1,6 +1,6 @@
 # AmitAirline CRM — Project Hub
 
-**Status**: Phase 1 complete (scaffolding, schema, synthetic data)
+**Status**: Phase 2 complete (read-only Streamlit skeleton)
 
 ## Goal
 
@@ -37,6 +37,6 @@ guardrails (overbooking, seat collisions, etc. are explicitly out of scope).
 ## Phases
 
 1. Scaffolding, schema, synthetic data generator — **done**
-2. Read-only Streamlit skeleton (dashboard, flights, customers)
+2. Read-only Streamlit skeleton (dashboard, flights, customers) — **done**
 3. Booking management (create/cancel bookings, add customers)
 4. Polish + documentation wrap-up

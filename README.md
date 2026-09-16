@@ -7,9 +7,11 @@ bookings (create / cancel) — all backed by hand-rolled synthetic data.
 No authentication — single-user, local tool.
 
 **Status**: work in progress, built in phases — see
-[`docs/02 - Dev Log.md`](docs/02%20-%20Dev%20Log.md). The Streamlit app
-(`app.py`, `pages/`) lands in Phase 2; right now the schema and synthetic
-data generator are in place.
+[`docs/02 - Dev Log.md`](docs/02%20-%20Dev%20Log.md). Phases 1 and 2 are
+done (schema, synthetic data, read-only dashboard/flights/customers views);
+booking management (Phase 3) is next.
+
+![Dashboard screenshot](docs/screenshots/dashboard.jpg)
 
 ## Setup
 
