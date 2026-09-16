@@ -76,7 +76,8 @@ joins through bookings.
 ## Pages (Streamlit `pages/` auto-discovery)
 
 - `app.py` — dashboard: totals, upcoming flights, active bookings, revenue,
-  small "next 5 upcoming flights" / "5 most recent bookings" tables.
+  a "Bookings by Status" bar chart, and small "next 5 upcoming flights" /
+  "5 most recent bookings" tables.
 - `pages/1_Flights.py` — search/filter flights, select a row to see its
   passenger manifest (Confirmed bookings joined with customers).
 - `pages/2_Customers.py` — search customers, select a row to see booking

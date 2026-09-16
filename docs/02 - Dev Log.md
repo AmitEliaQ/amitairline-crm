@@ -72,3 +72,28 @@ Tested (in a running browser session):
   (not committed to git anyway — it's gitignored).
 
 Next: Phase 4 — polish + documentation wrap-up.
+
+## 2026-09-16 — Phase 4: Polish + documentation wrap-up (final)
+
+Built:
+- Added a "Bookings by Status" bar chart to the dashboard (`app.py`).
+- Added empty-state messages ("No flights/customers/bookings match your
+  search") on Flights, Customers, and Bookings when a search/filter returns
+  zero rows, instead of just an empty table.
+- Formatted `Fare` as currency (`$%.2f`) via `st.column_config.NumberColumn`
+  in the flight manifest, customer booking history, and existing bookings
+  tables.
+
+Tested:
+- Deleted `airline.db`, regenerated it with `generate_data.py`, and ran the
+  app fresh (`streamlit run app.py`).
+- Clicked through Dashboard → Flights → Customers → Bookings end to end:
+  verified the new chart renders, currency formatting displays correctly
+  (e.g. "$643.89"), and searching for a nonexistent flight/customer/booking
+  shows the new empty-state message instead of an empty table.
+- No errors in the Streamlit server log during the full smoke test.
+
+This closes out all 4 phases. The app is feature-complete for its scope:
+dashboard, flight search + manifest, customer search + history + add,
+booking create/cancel. Documented non-goals (no auth, no overbooking/seat
+checks, no multi-leg itineraries) remain intentional and unchanged.

@@ -59,27 +59,31 @@ df = pd.read_sql_query(query, conn, params=params).fillna("")
 
 st.write(f"{len(df)} customer(s) found")
 
-df_display = df.drop(columns=["customer_id"]).rename(
-    columns={
-        "first_name": "First Name",
-        "last_name": "Last Name",
-        "email": "Email",
-        "phone": "Phone",
-        "city": "City",
-        "created_at": "Registered",
-    }
-)
+if df.empty:
+    st.info("No customers match your search.")
+    selected_rows = []
+else:
+    df_display = df.drop(columns=["customer_id"]).rename(
+        columns={
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "email": "Email",
+            "phone": "Phone",
+            "city": "City",
+            "created_at": "Registered",
+        }
+    )
 
-event = st.dataframe(
-    df_display,
-    hide_index=True,
-    on_select="rerun",
-    selection_mode="single-row",
-)
+    event = st.dataframe(
+        df_display,
+        hide_index=True,
+        on_select="rerun",
+        selection_mode="single-row",
+    )
+    selected_rows = event.selection.rows if event and event.selection else []
 
 st.divider()
 
-selected_rows = event.selection.rows if event and event.selection else []
 if selected_rows:
     customer = df.iloc[selected_rows[0]]
     st.subheader(f"Booking History — {customer['first_name']} {customer['last_name']}")
@@ -99,7 +103,11 @@ if selected_rows:
     if history.empty:
         st.info("This customer has no bookings yet.")
     else:
-        st.dataframe(history, hide_index=True)
+        st.dataframe(
+            history,
+            hide_index=True,
+            column_config={"Fare": st.column_config.NumberColumn(format="$%.2f")},
+        )
 else:
     st.info("Select a customer above to see their booking history.")
 

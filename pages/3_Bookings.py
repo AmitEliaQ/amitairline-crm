@@ -86,29 +86,34 @@ query += " ORDER BY b.booking_date DESC, b.booking_id DESC"
 df = pd.read_sql_query(query, conn, params=params).fillna("")
 st.write(f"{len(df)} booking(s) found")
 
-df_display = df.rename(
-    columns={
-        "booking_id": "ID",
-        "customer_name": "Customer",
-        "flight_number": "Flight",
-        "origin": "Origin",
-        "destination": "Destination",
-        "departure_time": "Departure",
-        "seat": "Seat",
-        "fare": "Fare",
-        "status": "Status",
-        "booking_date": "Booked On",
-    }
-)
+if df.empty:
+    st.info("No bookings match your filters.")
+    selected_rows = []
+else:
+    df_display = df.rename(
+        columns={
+            "booking_id": "ID",
+            "customer_name": "Customer",
+            "flight_number": "Flight",
+            "origin": "Origin",
+            "destination": "Destination",
+            "departure_time": "Departure",
+            "seat": "Seat",
+            "fare": "Fare",
+            "status": "Status",
+            "booking_date": "Booked On",
+        }
+    )
 
-event = st.dataframe(
-    df_display,
-    hide_index=True,
-    on_select="rerun",
-    selection_mode="single-row",
-)
+    event = st.dataframe(
+        df_display,
+        hide_index=True,
+        on_select="rerun",
+        selection_mode="single-row",
+        column_config={"Fare": st.column_config.NumberColumn(format="$%.2f")},
+    )
+    selected_rows = event.selection.rows if event and event.selection else []
 
-selected_rows = event.selection.rows if event and event.selection else []
 if selected_rows:
     booking = df.iloc[selected_rows[0]]
     st.write(

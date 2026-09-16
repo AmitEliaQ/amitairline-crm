@@ -38,28 +38,32 @@ df = pd.read_sql_query(query, conn, params=params)
 
 st.write(f"{len(df)} flight(s) found")
 
-df_display = df.drop(columns=["flight_id"]).rename(
-    columns={
-        "flight_number": "Flight",
-        "origin": "Origin",
-        "destination": "Destination",
-        "departure_time": "Departure",
-        "arrival_time": "Arrival",
-        "aircraft": "Aircraft",
-        "capacity": "Capacity",
-    }
-)
+if df.empty:
+    st.info("No flights match your search.")
+    selected_rows = []
+else:
+    df_display = df.drop(columns=["flight_id"]).rename(
+        columns={
+            "flight_number": "Flight",
+            "origin": "Origin",
+            "destination": "Destination",
+            "departure_time": "Departure",
+            "arrival_time": "Arrival",
+            "aircraft": "Aircraft",
+            "capacity": "Capacity",
+        }
+    )
 
-event = st.dataframe(
-    df_display,
-    hide_index=True,
-    on_select="rerun",
-    selection_mode="single-row",
-)
+    event = st.dataframe(
+        df_display,
+        hide_index=True,
+        on_select="rerun",
+        selection_mode="single-row",
+    )
+    selected_rows = event.selection.rows if event and event.selection else []
 
 st.divider()
 
-selected_rows = event.selection.rows if event and event.selection else []
 if selected_rows:
     flight = df.iloc[selected_rows[0]]
     st.subheader(
@@ -81,7 +85,11 @@ if selected_rows:
     if manifest.empty:
         st.info("No confirmed passengers for this flight yet.")
     else:
-        st.dataframe(manifest, hide_index=True)
+        st.dataframe(
+            manifest,
+            hide_index=True,
+            column_config={"Fare": st.column_config.NumberColumn(format="$%.2f")},
+        )
 else:
     st.info("Select a flight above to see its passenger manifest.")
 

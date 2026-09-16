@@ -38,6 +38,15 @@ col5.metric("Revenue (Confirmed)", f"${total_revenue:,.2f}")
 
 st.divider()
 
+status_counts = pd.read_sql_query(
+    "SELECT status AS Status, COUNT(*) AS Bookings FROM bookings GROUP BY status",
+    conn,
+).set_index("Status")
+if not status_counts.empty:
+    st.subheader("Bookings by Status")
+    st.bar_chart(status_counts, horizontal=True)
+    st.divider()
+
 left, right = st.columns(2)
 
 with left:
